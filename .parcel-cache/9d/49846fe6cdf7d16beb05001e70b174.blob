@@ -467,8 +467,7 @@ const renderSpinner = function (parentElement) {
   parentElement.insertAdjacentHTML('afterbegin', spinner);
 };
 const getRecipe = async function (recipe) {
-  const id = window.location.hash.slice(1);
-  if (!id) return;
+  const id = window.location.hash;
   console.log(id);
   try {
     renderSpinner(recipeContainer);
@@ -580,8 +579,8 @@ const getRecipe = async function (recipe) {
   }
 };
 getRecipe();
-window.addEventListener('hashchange', getRecipe);
-window.addEventListener('load', getRecipe);
+window.addEventListener('hashchange', getRecipe());
+window.addEventListener('load', getRecipe());
 
 },{"core-js/stable":"1PFvP","regenerator-runtime/runtime":"62Qib","url:../img/icons.svg":"3t5dV","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"1PFvP":[function(require,module,exports) {
 require('../modules/es.symbol');
@@ -13039,7 +13038,7 @@ try {
 }
 
 },{}],"3t5dV":[function(require,module,exports) {
-module.exports = require('./bundle-url').getBundleURL() + "icons.d4a14980.svg"
+module.exports = require('./bundle-url').getBundleURL() + "icons.HASH_REF_f6727c52d326b6f99dffa0b9d4a14980.svg"
 },{"./bundle-url":"3seVR"}],"3seVR":[function(require,module,exports) {
 "use strict";
 
@@ -13130,4 +13129,4 @@ exports.export = function (dest, destName, get) {
 };
 },{}]},["7BONy","3miIZ"], "3miIZ", "parcelRequirefade")
 
-//# sourceMappingURL=index.250b04c7.js.map
+//# sourceMappingURL=index.HASH_REF_6315ebf922a29661e8263da0250b04c7.js.map
