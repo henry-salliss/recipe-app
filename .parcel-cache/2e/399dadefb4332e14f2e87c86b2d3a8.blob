@@ -1,0 +1,36 @@
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "state", function () {
+  return state;
+});
+_parcelHelpers.export(exports, "loadRecipe", function () {
+  return loadRecipe;
+});
+_parcelHelpers.export(exports, "async", function () {
+  return _regeneratorRuntime.async;
+});
+require('../views/recipeView.js');
+var _configJs = require('./config.js');
+var _helpersJs = require('./helpers.js');
+var _regeneratorRuntime = require('regenerator-runtime');
+const state = {
+  recipe: {}
+};
+const loadRecipe = async function (id) {
+  try {
+    const data = await _helpersJs.getJSON(`${_configJs.API_URL}/${id}`);
+    const {recipe} = data.data;
+    state.recipe = {
+      id: recipe.id,
+      title: recipe.title,
+      publisher: recipe.publisher,
+      sourceUrl: recipe.source_url,
+      image: recipe.image_url,
+      ingredients: recipe.ingredients,
+      servings: recipe.servings,
+      cookingTime: recipe.cooking_time
+    };
+  } catch (err) {
+    throw err;
+  }
+};

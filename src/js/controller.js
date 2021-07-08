@@ -5,14 +5,6 @@ import 'regenerator-runtime/runtime';
 
 const recipeContainer = document.querySelector('.recipe');
 
-const timeout = function (s) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} second`));
-    }, s * 1000);
-  });
-};
-
 ///////////////////////////////////////
 
 const getRecipe = async function () {
@@ -27,11 +19,13 @@ const getRecipe = async function () {
     // Rendering the recipe
     recipeView.render(model.state.recipe);
   } catch (err) {
-    alert(err);
+    recipeView.renderError();
   }
 };
 
 getRecipe();
 
-window.addEventListener('hashchange', getRecipe);
-window.addEventListener('load', getRecipe);
+const init = function () {
+  recipeView.addHandlerRender(getRecipe);
+};
+init();
