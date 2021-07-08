@@ -1,11 +1,12 @@
-import icons from 'url:../img/icons.svg';
-import { Fraction } from 'fractional';
-
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+var _urlImgIconsSvg = require('url:../img/icons.svg');
+var _urlImgIconsSvgDefault = _parcelHelpers.interopDefault(_urlImgIconsSvg);
+var _fractional = require('fractional');
 class RecipeView {
   parentElement = document.querySelector('.recipe');
   data;
   errorMessage = 'Cannot find that recipe, please try another ';
-
   successMessage = '';
   render(data) {
     this.data = data;
@@ -13,27 +14,24 @@ class RecipeView {
     this.clear();
     this.parentElement.insertAdjacentHTML('afterbegin', html);
   }
-
   clear() {
     this.parentElement.innerHTML = '';
   }
-
   renderSpinner() {
     const spinner = `<div class="spinner">
         <svg>
-          <use href="${icons}#icon-loader"></use>
+          <use href="${_urlImgIconsSvgDefault.default}#icon-loader"></use>
         </svg>
         </div>`;
     this.clear();
     this.parentElement.insertAdjacentHTML('afterbegin', spinner);
   }
-
   renderError(error = this.errorMessage) {
     const html = `
         <div class="error">
             <div>
               <svg>
-                <use href="${icons}#icon-alert-triangle"></use>
+                <use href="${_urlImgIconsSvgDefault.default}#icon-alert-triangle"></use>
               </svg>
             </div>
             <p>${error}</p>
@@ -42,13 +40,12 @@ class RecipeView {
     this.clear();
     this.parentElement.insertAdjacentHTML('afterbegin', html);
   }
-
   renderSuccessMessage(message = this.successMessage) {
     const html = `
         <div class="error">
             <div>
               <svg>
-                <use href="${icons}#icon-smile"></use>
+                <use href="${_urlImgIconsSvgDefault.default}#icon-smile"></use>
               </svg>
             </div>
             <p>${message}</p>
@@ -57,13 +54,10 @@ class RecipeView {
     this.clear();
     this.parentElement.insertAdjacentHTML('afterbegin', html);
   }
-
   generateMarkup() {
     return `
             <figure class="recipe__fig">
-            <img src="${this.data.image}" alt="${
-      this.data.title
-    }" class="recipe__img" />
+            <img src="${this.data.image}" alt="${this.data.title}" class="recipe__img" />
             <h1 class="recipe__title">
             <span>${this.data.title}</span>
             </h1>
@@ -72,16 +66,14 @@ class RecipeView {
         <div class="recipe__details">
             <div class="recipe__info">
             <svg class="recipe__info-icon">
-                <use href="${icons}#icon-clock"></use>
+                <use href="${_urlImgIconsSvgDefault.default}#icon-clock"></use>
             </svg>
-            <span class="recipe__info-data recipe__info-data--minutes">${
-              this.data.cookingTime
-            }</span>
+            <span class="recipe__info-data recipe__info-data--minutes">${this.data.cookingTime}</span>
             <span class="recipe__info-text">minutes</span>
             </div>
             <div class="recipe__info">
             <svg class="recipe__info-icon">
-                <use href="${icons}#icon-users"></use>
+                <use href="${_urlImgIconsSvgDefault.default}#icon-users"></use>
             </svg>
             <span class="recipe__info-data recipe__info-data--people">4</span>
             <span class="recipe__info-text">servings</span>
@@ -89,12 +81,12 @@ class RecipeView {
             <div class="recipe__info-buttons">
                 <button class="btn--tiny btn--increase-servings">
                 <svg>
-                    <use href="${icons}#icon-minus-circle"></use>
+                    <use href="${_urlImgIconsSvgDefault.default}#icon-minus-circle"></use>
                 </svg>
                 </button>
                 <button class="btn--tiny btn--increase-servings">
                 <svg>
-                    <use href="${icons}#icon-plus-circle"></use>
+                    <use href="${_urlImgIconsSvgDefault.default}#icon-plus-circle"></use>
                 </svg>
                 </button>
             </div>
@@ -102,12 +94,12 @@ class RecipeView {
 
             <div class="recipe__user-generated">
             <svg>
-                <use href="${icons}#icon-user"></use>
+                <use href="${_urlImgIconsSvgDefault.default}#icon-user"></use>
             </svg>
             </div>
             <button class="btn--round">
             <svg class="">
-                <use href="${icons}#icon-bookmark-fill"></use>
+                <use href="${_urlImgIconsSvgDefault.default}#icon-bookmark-fill"></use>
             </svg>
             </button>
         </div>
@@ -115,14 +107,12 @@ class RecipeView {
         <div class="recipe__ingredients">
             <h2 class="heading--2">Recipe ingredients</h2>
             <ul class="recipe__ingredient-list">
-            ${this.data.ingredients
-              .map(ing => this.generateIngMarkup(ing))
-              .join('')}
+            ${this.data.ingredients.map(ing => this.generateIngMarkup(ing)).join('')}
             
 
             <li class="recipe__ingredient">
                 <svg class="recipe__icon">
-                <use href="${icons}#icon-check"></use>
+                <use href="${_urlImgIconsSvgDefault.default}#icon-check"></use>
                 </svg>
                 <div class="recipe__quantity">0.5</div>
                 <div class="recipe__description">
@@ -147,21 +137,18 @@ class RecipeView {
             >
             <span>Directions</span>
             <svg class="search__icon">
-                <use href="${icons}#icon-arrow-right"></use>
+                <use href="${_urlImgIconsSvgDefault.default}#icon-arrow-right"></use>
             </svg>
             </a>
         </div>`;
   }
-
   generateIngMarkup(ing) {
     return `
         <li class="recipe__ingredient">
             <svg class="recipe__icon">
-            <use href="${icons}#icon-check"></use>
+            <use href="${_urlImgIconsSvgDefault.default}#icon-check"></use>
             </svg>
-            <div class="recipe__quantity">${
-              ing.quantity ? new Fraction(ing.quantity).toString() : ''
-            }</div>
+            <div class="recipe__quantity">${ing.quantity ? new _fractional.Fraction(ing.quantity).toString() : ''}</div>
             <div class="recipe__description">
             <span class="recipe__unit">${ing.unit}</span>
             ${ing.description}
@@ -169,11 +156,9 @@ class RecipeView {
         </li>
         `;
   }
-
   addHandlerRender(handler) {
     window.addEventListener('hashchange', handler);
     window.addEventListener('load', handler);
   }
 }
-
-export default new RecipeView();
+exports.default = new RecipeView();
