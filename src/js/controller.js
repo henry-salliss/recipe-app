@@ -5,6 +5,10 @@ import resultsView from '../views/resultsView.js';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
+if (module.hot) {
+  module.hot.accept();
+}
+
 const getRecipe = async function () {
   const id = window.location.hash.slice(1);
   if (!id) return;

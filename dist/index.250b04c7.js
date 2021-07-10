@@ -452,6 +452,9 @@ var _viewsResultsViewJs = require('../views/resultsView.js');
 var _viewsResultsViewJsDefault = _parcelHelpers.interopDefault(_viewsResultsViewJs);
 require('core-js/stable');
 require('regenerator-runtime/runtime');
+if (module.hot) {
+  module.hot.accept();
+}
 const getRecipe = async function () {
   const id = window.location.hash.slice(1);
   if (!id) return;
@@ -1839,6 +1842,7 @@ var _urlImgIconsSvgDefault = _parcelHelpers.interopDefault(_urlImgIconsSvg);
 class View {
   _data;
   render(data) {
+    if (!data || Array.isArray(data) && data.length === 0) return this.renderError();
     this._data = data;
     const html = this._generateMarkup();
     this._clear();
@@ -13707,8 +13711,7 @@ exports.default = new SearchView();
 var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
 _parcelHelpers.defineInteropFlag(exports);
 var _View = require('./View');
-var _urlImgIconsSvg = require('url:../img/icons.svg');
-var _urlImgIconsSvgDefault = _parcelHelpers.interopDefault(_urlImgIconsSvg);
+require('url:../img/icons.svg');
 class ResultsView extends _View.View {
   _parentElement = document.querySelector('.results');
   _errorMessage = 'No recipes could be found!';
@@ -13718,18 +13721,13 @@ class ResultsView extends _View.View {
   _generateMarkupPreview(result) {
     return `
         <li class="preview">
-        <a class="preview__link preview__link--active" href=#${result.id}>
+        <a class="preview__link" href=#${result.id}>
           <figure class="preview__fig">
             <img src=${result.image} alt=${result.title} />
           </figure>
           <div class="preview__data">
             <h4 class="preview__title">${result.title}.</h4>
             <p class="preview__publisher">${result.publisher}</p>
-            <div class="preview__user-generated">
-              <svg>
-                <use href="${_urlImgIconsSvgDefault.default}#icon-user"></use>
-              </svg>
-            </div>
           </div>
         </a>
       </li>
