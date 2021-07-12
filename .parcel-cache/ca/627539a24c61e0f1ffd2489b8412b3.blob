@@ -478,7 +478,7 @@ const controlSearchResults = async function () {
     // search results
     await _modelJs.loadSearchResults(query);
     // Load results
-    _viewsResultsViewJsDefault.default.render(_modelJs.getSearchResultsPage(2));
+    _viewsResultsViewJsDefault.default.render(_modelJs.getSearchResultsPage());
   } catch (err) {
     console.log(err);
   }
@@ -507,6 +507,7 @@ _parcelHelpers.export(exports, "getSearchResultsPage", function () {
 _parcelHelpers.export(exports, "async", function () {
   return _regeneratorRuntime.async;
 });
+require('../views/recipeView.js');
 var _configJs = require('./config.js');
 var _helpersJs = require('./helpers.js');
 var _regeneratorRuntime = require('regenerator-runtime');
@@ -515,7 +516,6 @@ const state = {
   search: {
     query: '',
     results: [],
-    resultsPerPage: _configJs.RES_PER_PAGE,
     page: 1
   }
 };
@@ -556,12 +556,14 @@ const loadSearchResults = async function (query) {
 };
 const getSearchResultsPage = function (page = state.search.page) {
   state.search.page = page;
-  const start = (page - 1) * state.search.resultsPerPage;
-  const end = page * state.search.resultsPerPage;
-  return state.search.results.slice(start, end);
+  console.log('hello');
+  const start = (page - 1) * 10;
+  const end = page * 10;
+  state.search.results.slice(start, end);
+  console.log(state.search.results);
 };
 
-},{"regenerator-runtime":"62Qib","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","./config.js":"6pr2F","./helpers.js":"581KF"}],"62Qib":[function(require,module,exports) {
+},{"regenerator-runtime":"62Qib","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","../views/recipeView.js":"4znsI","./config.js":"6pr2F","./helpers.js":"581KF"}],"62Qib":[function(require,module,exports) {
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
@@ -1353,53 +1355,7 @@ exports.export = function (dest, destName, get) {
     get: get
   });
 };
-},{}],"6pr2F":[function(require,module,exports) {
-var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
-_parcelHelpers.defineInteropFlag(exports);
-_parcelHelpers.export(exports, "API_URL", function () {
-  return API_URL;
-});
-_parcelHelpers.export(exports, "TIMEOUT_SECONDS", function () {
-  return TIMEOUT_SECONDS;
-});
-_parcelHelpers.export(exports, "RES_PER_PAGE", function () {
-  return RES_PER_PAGE;
-});
-const API_URL = `https://forkify-api.herokuapp.com/api/v2/recipes`;
-const TIMEOUT_SECONDS = 10;
-const RES_PER_PAGE = 10;
-
-},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"581KF":[function(require,module,exports) {
-var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
-_parcelHelpers.defineInteropFlag(exports);
-_parcelHelpers.export(exports, "getJSON", function () {
-  return getJSON;
-});
-_parcelHelpers.export(exports, "async", function () {
-  return _regeneratorRuntime.async;
-});
-var _config = require('./config');
-var _regeneratorRuntime = require('regenerator-runtime');
-const timeout = function (s) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} second`));
-    }, s * 1000);
-  });
-};
-const getJSON = async function (url) {
-  try {
-    const fetchPromise = fetch(url);
-    const response = await Promise.race([fetchPromise, timeout(_config.TIMEOUT_SECONDS)]);
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.message);
-    return data;
-  } catch (err) {
-    throw err;
-  }
-};
-
-},{"./config":"6pr2F","regenerator-runtime":"62Qib","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"4znsI":[function(require,module,exports) {
+},{}],"4znsI":[function(require,module,exports) {
 var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
 _parcelHelpers.defineInteropFlag(exports);
 var _View = require('./View');
@@ -1947,7 +1903,7 @@ class View {
 }
 
 },{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","url:../img/icons.svg":"3t5dV"}],"3t5dV":[function(require,module,exports) {
-module.exports = require('./bundle-url').getBundleURL() + "icons.d4a14980.svg"
+module.exports = require('./bundle-url').getBundleURL() + "icons.HASH_REF_f6727c52d326b6f99dffa0b9d4a14980.svg"
 },{"./bundle-url":"3seVR"}],"3seVR":[function(require,module,exports) {
 "use strict";
 
@@ -1994,7 +1950,49 @@ function getOrigin(url) {
 exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
-},{}],"1PFvP":[function(require,module,exports) {
+},{}],"6pr2F":[function(require,module,exports) {
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "API_URL", function () {
+  return API_URL;
+});
+_parcelHelpers.export(exports, "TIMEOUT_SECONDS", function () {
+  return TIMEOUT_SECONDS;
+});
+const API_URL = `https://forkify-api.herokuapp.com/api/v2/recipes`;
+const TIMEOUT_SECONDS = 10;
+
+},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"581KF":[function(require,module,exports) {
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "getJSON", function () {
+  return getJSON;
+});
+_parcelHelpers.export(exports, "async", function () {
+  return _regeneratorRuntime.async;
+});
+var _config = require('./config');
+var _regeneratorRuntime = require('regenerator-runtime');
+const timeout = function (s) {
+  return new Promise(function (_, reject) {
+    setTimeout(function () {
+      reject(new Error(`Request took too long! Timeout after ${s} second`));
+    }, s * 1000);
+  });
+};
+const getJSON = async function (url) {
+  try {
+    const fetchPromise = fetch(url);
+    const response = await Promise.race([fetchPromise, timeout(_config.TIMEOUT_SECONDS)]);
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message);
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+},{"./config":"6pr2F","regenerator-runtime":"62Qib","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"1PFvP":[function(require,module,exports) {
 require('../modules/es.symbol');
 require('../modules/es.symbol.description');
 require('../modules/es.symbol.async-iterator');
@@ -13752,4 +13750,4 @@ exports.default = new ResultsView();
 
 },{"./View":"77sRH","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","url:../img/icons.svg":"3t5dV"}]},["7BONy","3miIZ"], "3miIZ", "parcelRequirefade")
 
-//# sourceMappingURL=index.250b04c7.js.map
+//# sourceMappingURL=index.HASH_REF_6315ebf922a29661e8263da0250b04c7.js.map
