@@ -32,12 +32,11 @@ const controlSearchResults = async function () {
     // Get query from search view
     const query = searchView.getQuery();
     if (!query) return;
-    console.log(query);
     // search results
     await model.loadSearchResults(query);
 
     // Load results
-    resultsView.render(model.getSearchResultsPage(3));
+    resultsView.render(model.getSearchResultsPage(1));
 
     // Render pagination
     paginationView.render(model.state.search);
@@ -47,8 +46,6 @@ const controlSearchResults = async function () {
 };
 
 const controlPagination = function (newPage) {
-  console.log(`go to ${+newPage}`);
-
   // Load NEW results
   resultsView.render(model.getSearchResultsPage(newPage));
 

@@ -1957,7 +1957,7 @@ class View {
 }
 
 },{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","url:../img/icons.svg":"3t5dV"}],"3t5dV":[function(require,module,exports) {
-module.exports = require('./bundle-url').getBundleURL() + "icons.d4a14980.svg"
+module.exports = require('./bundle-url').getBundleURL() + "icons.HASH_REF_f6727c52d326b6f99dffa0b9d4a14980.svg"
 },{"./bundle-url":"3seVR"}],"3seVR":[function(require,module,exports) {
 "use strict";
 
@@ -13773,10 +13773,12 @@ class PaginationView extends _View.View {
       const btn = e.target.closest('.btn--inline');
       if (!btn) return;
       const goToPage = +btn.dataset.goto;
+      console.log(goToPage);
       handler(goToPage);
     });
   }
   getNextBtn(page) {
+    console.log('works');
     return `
     <button data-goto="${page + 1}" class="btn--inline pagination__btn--next">
            <span>${page + 1}</span>
@@ -13787,26 +13789,10 @@ class PaginationView extends _View.View {
     `;
   }
   getPrevBtn(page) {
+    console.log('works');
     return `
     <button data-goto="${page - 1}" class="btn--inline pagination__btn--prev">
            <span>${page - 1}</span>
-           <svg class="search__icon">
-             <use href="${_urlImgIconsSvgDefault.default}#icon-arrow-right"></use>
-           </svg>
-         </button>
-    `;
-  }
-  getPrevAndNextBtn(page) {
-    return `
-    <button data-goto="${page - 1}" class="btn--inline pagination__btn--prev">
-           <span>${page - 1}</span>
-           <svg class="search__icon">
-             <use href="${_urlImgIconsSvgDefault.default}#icon-arrow-right"></use>
-           </svg>
-         </button>
-
-         <button data-goto="${page + 1}" class="btn--inline pagination__btn--next">
-           <span>${page + 1}</span>
            <svg class="search__icon">
              <use href="${_urlImgIconsSvgDefault.default}#icon-arrow-right"></use>
            </svg>
@@ -13815,13 +13801,59 @@ class PaginationView extends _View.View {
   }
   _generateMarkup() {
     const curPage = this._data.page;
+    console.log(this._data);
     const numPages = Math.ceil(this._data.results.length / this._data.resultsPerPage);
+    console.log(numPages);
     // Page 1 and there other pages
-    if (curPage === 1 && numPages > 1) return this.getNextBtn(curPage);
+    if (curPage === 1 && numPages > 1) {
+      // return `
+      // <button data-goto="${
+      // curPage + 1
+      // }" class="btn--inline pagination__btn--next">
+      // <span>${curPage + 1}</span>
+      // <svg class="search__icon">
+      // <use href="${icons}#icon-arrow-right"></use>
+      // </svg>
+      // </button>
+      // `;
+      return this.getNextBtn(curPage);
+    }
     // Last page
-    if (curPage === numPages && numPages > 1) return this.getPrevBtn(curPage);
+    if (curPage === numPages && numPages > 1) {
+      // return `
+      // <button data-goto="${
+      // curPage - 1
+      // }" class="btn--inline pagination__btn--prev">
+      // <svg class="search__icon">
+      // <use href="${icons}#icon-arrow-left"></use>
+      // </svg>
+      // <span>${curPage - 1}</span>
+      // </button>`;
+      this.getPrevBtn(curPage);
+    }
     // Other page
-    if (curPage < numPages) return this.getPrevAndNextBtn(curPage);
+    if (curPage < numPages) {
+      // return `
+      // <button data-goto="${
+      // curPage - 1
+      // }" class="btn--inline pagination__btn--prev">
+      // <svg class="search__icon">
+      // <use href="${icons}#icon-arrow-left"></use>
+      // </svg>
+      // <span>${curPage - 1}</span>
+      // </button>
+      // <button data-goto="${
+      // curPage + 1
+      // }" class="btn--inline pagination__btn--next">
+      // <span>${curPage + 1}</span>
+      // <svg class="search__icon">
+      // <use href="${icons}#icon-arrow-right"></use>
+      // </svg>
+      // </button>
+      // `;
+      console.log('poo');
+      return (this.getPrevBtn(curPage), this.getNextBtn(curPage));
+    }
     // Page 1 and there are no other pages
     return ``;
   }
@@ -13830,4 +13862,4 @@ exports.default = new PaginationView();
 
 },{"./View":"77sRH","url:../img/icons.svg":"3t5dV","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}]},["7BONy","3miIZ"], "3miIZ", "parcelRequirefade")
 
-//# sourceMappingURL=index.250b04c7.js.map
+//# sourceMappingURL=index.HASH_REF_6315ebf922a29661e8263da0250b04c7.js.map
