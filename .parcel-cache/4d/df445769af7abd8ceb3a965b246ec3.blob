@@ -1,0 +1,55 @@
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+var _View = require('./View');
+var _urlImgIconsSvg = require('url:../img/icons.svg');
+var _urlImgIconsSvgDefault = _parcelHelpers.interopDefault(_urlImgIconsSvg);
+class PaginationView extends _View.View {
+  _parentElement = document.querySelector('.pagination');
+  _generateMarkup() {
+    const curPage = this._data.page;
+    console.log(this._data);
+    const numPages = Math.ceil(this._data.results.length / this._data.resultsPerPage);
+    console.log(numPages);
+    // Page 1 and there other pages
+    if (curPage === 1 && numPages > 1) {
+      return `
+      <button class="btn--inline pagination__btn--next">
+             <span>${curPage}</span>
+             <svg class="search__icon">
+               <use href="${_urlImgIconsSvgDefault.default}#icon-arrow-right"></use>
+             </svg>
+           </button>
+      `;
+    }
+    // Last page
+    if (curPage === numPages && numPages > 1) {
+      return `
+        <button class="btn--inline pagination__btn--prev">
+            <svg class="search__icon">
+                <use href="${_urlImgIconsSvgDefault.default}#icon-arrow-left"></use>
+            </svg>
+            <span>${curPage--}</span>
+        </button>`;
+    }
+    // Other page
+    if (curPage < numPages) {
+      return `
+        <button class="btn--inline pagination__btn--prev">
+              <svg class="search__icon">
+                <use href="${_urlImgIconsSvgDefault.default}#icon-arrow-left"></use>
+              </svg>
+              <span>${curPage--}</span>
+            </button>
+            <button class="btn--inline pagination__btn--next">
+              <span>${curPage++}</span>
+              <svg class="search__icon">
+                <use href="${_urlImgIconsSvgDefault.default}#icon-arrow-right"></use>
+              </svg>
+            </button>
+        `;
+    }
+    // Page 1 and there are no other pages
+    return ``;
+  }
+}
+exports.default = new PaginationView();

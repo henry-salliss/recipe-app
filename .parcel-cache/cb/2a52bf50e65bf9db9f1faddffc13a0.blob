@@ -1,0 +1,13 @@
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+var _View = require('./View');
+require('url:../img/icons.svg');
+class PaginationView extends _View.View {
+  _parentElement = document.querySelector('.pagination');
+  _generateMarkup() {
+    console.log(this._data);
+    const numPages = this._data.results.length / this._data.resultsPerPage;
+    console.log(numPages);
+  }
+}
+exports.default = new PaginationView();

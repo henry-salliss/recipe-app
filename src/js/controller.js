@@ -2,6 +2,7 @@ import * as model from './model.js';
 import recipeView from '../views/recipeView.js';
 import searchView from '../views/searchView';
 import resultsView from '../views/resultsView.js';
+import paginationView from '../views/paginationView.js';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
@@ -36,15 +37,28 @@ const controlSearchResults = async function () {
     await model.loadSearchResults(query);
 
     // Load results
-    resultsView.render(model.getSearchResultsPage(2));
-    // model.getSearchResultsPage();
+    resultsView.render(model.getSearchResultsPage(3));
+
+    // Render pagination
+    paginationView.render(model.state.search);
   } catch (err) {
     console.log(err);
   }
 };
 
+const controlPagination = function (newPage) {
+  console.log(`go to ${+newPage}`);
+
+  // Load NEW results
+  resultsView.render(model.getSearchResultsPage(newPage));
+
+  // Render NEW pagination
+  paginationView.render(model.state.search);
+};
+
 const init = function () {
   recipeView.addHandlerRender(getRecipe);
   searchView.addHandlerSearch(controlSearchResults);
+  paginationView._addClickHandler(controlPagination);
 };
 init();
