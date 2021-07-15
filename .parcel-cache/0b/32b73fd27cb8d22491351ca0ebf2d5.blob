@@ -1466,8 +1466,8 @@ const getJSON = async function (url) {
 var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
 _parcelHelpers.defineInteropFlag(exports);
 var _View = require('./View');
-var _urlImgIconsSvg = require('url:../img/icons.svg');
-var _urlImgIconsSvgDefault = _parcelHelpers.interopDefault(_urlImgIconsSvg);
+var _imgIconsSvg = require('../img/icons.svg');
+var _imgIconsSvgDefault = _parcelHelpers.interopDefault(_imgIconsSvg);
 var _fractional = require('fractional');
 class RecipeView extends _View.View {
   _parentElement = document.querySelector('.recipe');
@@ -1484,14 +1484,14 @@ class RecipeView extends _View.View {
         <div class="recipe__details">
             <div class="recipe__info">
             <svg class="recipe__info-icon">
-                <use href="${_urlImgIconsSvgDefault.default}#icon-clock"></use>
+                <use href="${_imgIconsSvgDefault.default}#icon-clock"></use>
             </svg>
             <span class="recipe__info-data recipe__info-data--minutes">${this._data.cookingTime}</span>
             <span class="recipe__info-text">minutes</span>
             </div>
             <div class="recipe__info">
             <svg class="recipe__info-icon">
-                <use href="${_urlImgIconsSvgDefault.default}#icon-users"></use>
+                <use href="${_imgIconsSvgDefault.default}#icon-users"></use>
             </svg>
             <span class="recipe__info-data recipe__info-data--people">${this._data.servings}</span>
             <span class="recipe__info-text">servings</span>
@@ -1499,12 +1499,12 @@ class RecipeView extends _View.View {
             <div class="recipe__info-buttons">
                 <button class="btn--tiny btn--update-servings" data-update-to="${this._data.servings - 1}">
                 <svg>
-                    <use href="${_urlImgIconsSvgDefault.default}#icon-minus-circle"></use>
+                    <use href="${_imgIconsSvgDefault.default}#icon-minus-circle"></use>
                 </svg>
                 </button>
                 <button class="btn--tiny btn--update-servings" data-update-to="${this._data.servings + 1}">
                 <svg>
-                    <use href="${_urlImgIconsSvgDefault.default}#icon-plus-circle"></use>
+                    <use href="${_imgIconsSvgDefault.default}#icon-plus-circle"></use>
                 </svg>
                 </button>
             </div>
@@ -1512,12 +1512,12 @@ class RecipeView extends _View.View {
 
             <div class="recipe__user-generated">
             <svg>
-                <use href="${_urlImgIconsSvgDefault.default}#icon-user"></use>
+                <use href="${_imgIconsSvgDefault.default}#icon-user"></use>
             </svg>
             </div>
             <button class="btn--round btn--bookmark">
             <svg class="">
-                <use href="${_urlImgIconsSvgDefault.default}#icon-bookmark${this._data.bookmarked ? '-fill' : ''}"></use>
+                <use href="${_imgIconsSvgDefault.default}#icon-bookmark${this._data.bookmarked ? '-fill' : ''}"></use>
             </svg>
             </button>
         </div>
@@ -1530,7 +1530,7 @@ class RecipeView extends _View.View {
 
             <li class="recipe__ingredient">
                 <svg class="recipe__icon">
-                <use href="${_urlImgIconsSvgDefault.default}#icon-check"></use>
+                <use href="${_imgIconsSvgDefault.default}#icon-check"></use>
                 </svg>
                 <div class="recipe__quantity">0.5</div>
                 <div class="recipe__description">
@@ -1555,7 +1555,7 @@ class RecipeView extends _View.View {
             >
             <span>Directions</span>
             <svg class="search__icon">
-                <use href="${_urlImgIconsSvgDefault.default}#icon-arrow-right"></use>
+                <use href="${_imgIconsSvgDefault.default}#icon-arrow-right"></use>
             </svg>
             </a>
         </div>`;
@@ -1564,7 +1564,7 @@ class RecipeView extends _View.View {
     return `
         <li class="recipe__ingredient">
             <svg class="recipe__icon">
-            <use href="${_urlImgIconsSvgDefault.default}#icon-check"></use>
+            <use href="${_imgIconsSvgDefault.default}#icon-check"></use>
             </svg>
             <div class="recipe__quantity">${ing.quantity ? new _fractional.Fraction(ing.quantity).toString() : ''}</div>
             <div class="recipe__description">
@@ -1596,7 +1596,7 @@ class RecipeView extends _View.View {
 }
 exports.default = new RecipeView();
 
-},{"fractional":"5jzJt","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","./View":"77sRH","url:../img/icons.svg":"3t5dV"}],"5jzJt":[function(require,module,exports) {
+},{"fractional":"5jzJt","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","./View":"77sRH","../img/icons.svg":"28PSn"}],"5jzJt":[function(require,module,exports) {
 /*
 fraction.js
 A Javascript fraction library.
@@ -1971,8 +1971,8 @@ _parcelHelpers.defineInteropFlag(exports);
 _parcelHelpers.export(exports, "View", function () {
   return View;
 });
-var _urlImgIconsSvg = require('url:../img/icons.svg');
-var _urlImgIconsSvgDefault = _parcelHelpers.interopDefault(_urlImgIconsSvg);
+var _imgIconsSvg = require('../img/icons.svg');
+var _imgIconsSvgDefault = _parcelHelpers.interopDefault(_imgIconsSvg);
 class View {
   _data;
   render(data) {
@@ -2008,7 +2008,7 @@ class View {
   renderSpinner() {
     const spinner = `<div class="spinner">
         <svg>
-          <use href="${_urlImgIconsSvgDefault.default}#icon-loader"></use>
+          <use href="${_imgIconsSvgDefault.default}#icon-loader"></use>
         </svg>
         </div>`;
     this._clear();
@@ -2019,7 +2019,7 @@ class View {
         <div class="error">
             <div>
               <svg>
-                <use href="${_urlImgIconsSvgDefault.default}#icon-alert-triangle"></use>
+                <use href="${_imgIconsSvgDefault.default}#icon-alert-triangle"></use>
               </svg>
             </div>
             <p>${error}</p>
@@ -2033,7 +2033,7 @@ class View {
         <div class="error">
             <div>
               <svg>
-                <use href="${_urlImgIconsSvgDefault.default}#icon-smile"></use>
+                <use href="${_imgIconsSvgDefault.default}#icon-smile"></use>
               </svg>
             </div>
             <p>${message}</p>
@@ -2044,55 +2044,7 @@ class View {
   }
 }
 
-},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","url:../img/icons.svg":"3t5dV"}],"3t5dV":[function(require,module,exports) {
-module.exports = require('./bundle-url').getBundleURL() + "icons.d4a14980.svg"
-},{"./bundle-url":"3seVR"}],"3seVR":[function(require,module,exports) {
-"use strict";
-
-/* globals document:readonly */
-var bundleURL = null;
-
-function getBundleURLCached() {
-  if (!bundleURL) {
-    bundleURL = getBundleURL();
-  }
-
-  return bundleURL;
-}
-
-function getBundleURL() {
-  try {
-    throw new Error();
-  } catch (err) {
-    var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
-
-    if (matches) {
-      return getBaseURL(matches[0]);
-    }
-  }
-
-  return '/';
-}
-
-function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
-} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
-
-
-function getOrigin(url) {
-  let matches = ('' + url).match(/(https?|file|ftp):\/\/[^/]+/);
-
-  if (!matches) {
-    throw new Error('Origin not found');
-  }
-
-  return matches[0];
-}
-
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-exports.getOrigin = getOrigin;
-},{}],"1PFvP":[function(require,module,exports) {
+},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","../img/icons.svg":"28PSn"}],"28PSn":[function() {},{}],"28PSn":[function() {},{}],"1PFvP":[function(require,module,exports) {
 require('../modules/es.symbol');
 require('../modules/es.symbol.description');
 require('../modules/es.symbol.async-iterator');
@@ -13855,7 +13807,55 @@ class ResultsView extends _View.View {
 }
 exports.default = new ResultsView();
 
-},{"./View":"77sRH","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","url:../img/icons.svg":"3t5dV"}],"4wt0Z":[function(require,module,exports) {
+},{"./View":"77sRH","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","url:../img/icons.svg":"3t5dV"}],"3t5dV":[function(require,module,exports) {
+module.exports = require('./bundle-url').getBundleURL() + "icons.HASH_REF_f6727c52d326b6f99dffa0b9d4a14980.svg"
+},{"./bundle-url":"3seVR"}],"3seVR":[function(require,module,exports) {
+"use strict";
+
+/* globals document:readonly */
+var bundleURL = null;
+
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
+} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
+
+
+function getOrigin(url) {
+  let matches = ('' + url).match(/(https?|file|ftp):\/\/[^/]+/);
+
+  if (!matches) {
+    throw new Error('Origin not found');
+  }
+
+  return matches[0];
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+exports.getOrigin = getOrigin;
+},{}],"4wt0Z":[function(require,module,exports) {
 var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
 _parcelHelpers.defineInteropFlag(exports);
 var _View = require('./View');
@@ -13924,4 +13924,4 @@ exports.default = new PaginationView();
 
 },{"./View":"77sRH","url:../img/icons.svg":"3t5dV","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}]},["7BONy","3miIZ"], "3miIZ", "parcelRequirefade")
 
-//# sourceMappingURL=index.250b04c7.js.map
+//# sourceMappingURL=index.HASH_REF_6315ebf922a29661e8263da0250b04c7.js.map

@@ -1971,8 +1971,8 @@ _parcelHelpers.defineInteropFlag(exports);
 _parcelHelpers.export(exports, "View", function () {
   return View;
 });
-var _urlImgIconsSvg = require('url:../img/icons.svg');
-var _urlImgIconsSvgDefault = _parcelHelpers.interopDefault(_urlImgIconsSvg);
+var _imgIconsSvg = require('../img/icons.svg');
+var _imgIconsSvgDefault = _parcelHelpers.interopDefault(_imgIconsSvg);
 class View {
   _data;
   render(data) {
@@ -2008,7 +2008,7 @@ class View {
   renderSpinner() {
     const spinner = `<div class="spinner">
         <svg>
-          <use href="${_urlImgIconsSvgDefault.default}#icon-loader"></use>
+          <use href="${_imgIconsSvgDefault.default}#icon-loader"></use>
         </svg>
         </div>`;
     this._clear();
@@ -2019,7 +2019,7 @@ class View {
         <div class="error">
             <div>
               <svg>
-                <use href="${_urlImgIconsSvgDefault.default}#icon-alert-triangle"></use>
+                <use href="${_imgIconsSvgDefault.default}#icon-alert-triangle"></use>
               </svg>
             </div>
             <p>${error}</p>
@@ -2033,7 +2033,7 @@ class View {
         <div class="error">
             <div>
               <svg>
-                <use href="${_urlImgIconsSvgDefault.default}#icon-smile"></use>
+                <use href="${_imgIconsSvgDefault.default}#icon-smile"></use>
               </svg>
             </div>
             <p>${message}</p>
@@ -2044,8 +2044,8 @@ class View {
   }
 }
 
-},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","url:../img/icons.svg":"3t5dV"}],"3t5dV":[function(require,module,exports) {
-module.exports = require('./bundle-url').getBundleURL() + "icons.d4a14980.svg"
+},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","../img/icons.svg":"28PSn"}],"28PSn":[function() {},{}],"3t5dV":[function(require,module,exports) {
+module.exports = require('./bundle-url').getBundleURL() + "icons.HASH_REF_f6727c52d326b6f99dffa0b9d4a14980.svg"
 },{"./bundle-url":"3seVR"}],"3seVR":[function(require,module,exports) {
 "use strict";
 
@@ -13924,4 +13924,4 @@ exports.default = new PaginationView();
 
 },{"./View":"77sRH","url:../img/icons.svg":"3t5dV","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}]},["7BONy","3miIZ"], "3miIZ", "parcelRequirefade")
 
-//# sourceMappingURL=index.250b04c7.js.map
+//# sourceMappingURL=index.HASH_REF_6315ebf922a29661e8263da0250b04c7.js.map

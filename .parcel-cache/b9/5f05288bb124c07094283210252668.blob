@@ -534,12 +534,6 @@ _parcelHelpers.export(exports, "getSearchResultsPage", function () {
 _parcelHelpers.export(exports, "updateServings", function () {
   return updateServings;
 });
-_parcelHelpers.export(exports, "addBookmark", function () {
-  return addBookmark;
-});
-_parcelHelpers.export(exports, "deleteBookmark", function () {
-  return deleteBookmark;
-});
 _parcelHelpers.export(exports, "async", function () {
   return _regeneratorRuntime.async;
 });
@@ -554,8 +548,7 @@ const state = {
     results: [],
     resultsPerPage: _configJs.RES_PER_PAGE,
     page: 1
-  },
-  bookmarks: []
+  }
 };
 const loadRecipe = async function (id) {
   try {
@@ -571,11 +564,6 @@ const loadRecipe = async function (id) {
       servings: recipe.servings,
       cookingTime: recipe.cooking_time
     };
-    if (state.bookmarks.some(bookmark => bookmark.id === id)) {
-      state.recipe.bookmarked = true;
-    } else {
-      state.recipe.bookmarked = false;
-    }
   } catch (err) {
     throw err;
   }
@@ -593,7 +581,6 @@ const loadSearchResults = async function (query) {
         image: rec.image_url
       };
     });
-    state.search.page = 1;
   } catch (err) {
     throw err;
   }
@@ -609,19 +596,6 @@ const updateServings = function (servings) {
     ing.quantity = ing.quantity * servings / state.recipe.servings;
   });
   state.recipe.servings = servings;
-};
-const addBookmark = function (recipe) {
-  // Add a new bookmark
-  state.bookmarks.push(recipe);
-  // Mark current recipe as bookmarked
-  if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
-};
-const deleteBookmark = function (id) {
-  // Delete bookmark
-  const index = state.bookmarks.findIndex(el => el.id === id);
-  state.bookmarks.splice(index, 1);
-  // Mark current recipe as not bookmarked
-  if (id === state.recipe.id) state.recipe.bookmarked = false;
 };
 
 },{"regenerator-runtime":"62Qib","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","./config.js":"6pr2F","./helpers.js":"581KF","../views/recipeView.js":"4znsI"}],"62Qib":[function(require,module,exports) {
@@ -1515,9 +1489,9 @@ class RecipeView extends _View.View {
                 <use href="${_urlImgIconsSvgDefault.default}#icon-user"></use>
             </svg>
             </div>
-            <button class="btn--round btn--bookmark">
+            <button class="btn--round">
             <svg class="">
-                <use href="${_urlImgIconsSvgDefault.default}#icon-bookmark${this._data.bookmarked ? '-fill' : ''}"></use>
+                <use href="${_urlImgIconsSvgDefault.default}#icon-bookmark-fill"></use>
             </svg>
             </button>
         </div>
@@ -1584,13 +1558,6 @@ class RecipeView extends _View.View {
       if (!btn) return;
       const updateTo = +btn.dataset.updateTo;
       if (updateTo > 0) handler(updateTo);
-    });
-  }
-  addHandlerAddBookmark(handler) {
-    this._parentElement.addEventListener('click', function (e) {
-      const btn = e.target.closest('.btn--bookmark');
-      if (!btn) return;
-      handler();
     });
   }
 }
@@ -1971,8 +1938,8 @@ _parcelHelpers.defineInteropFlag(exports);
 _parcelHelpers.export(exports, "View", function () {
   return View;
 });
-var _urlImgIconsSvg = require('url:../img/icons.svg');
-var _urlImgIconsSvgDefault = _parcelHelpers.interopDefault(_urlImgIconsSvg);
+var _imgIconsSvg = require('../img/icons.svg');
+var _imgIconsSvgDefault = _parcelHelpers.interopDefault(_imgIconsSvg);
 class View {
   _data;
   render(data) {
@@ -1983,24 +1950,9 @@ class View {
     this._parentElement.insertAdjacentHTML('afterbegin', html);
   }
   update(data) {
+    if (!data || Array.isArray(data) && data.length === 0) return this.renderError();
     this._data = data;
     const newHtml = this._generateMarkup();
-    const newDOM = document.createRange().createContextualFragment(newHtml);
-    const newElements = Array.from(newDOM.querySelectorAll('*'));
-    const currentElements = Array.from(this._parentElement.querySelectorAll('*'));
-    newElements.forEach((newEl, i) => {
-      const curEl = currentElements[i];
-      // Changes text
-      if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue?.trim?.() !== '') {
-        curEl.textContent = newEl.textContent;
-      }
-      // Changes attributes
-      if (!newEl.isEqualNode(curEl)) {
-        Array.from(newEl.attributes).forEach(attr => {
-          curEl.setAttribute(attr.name, attr.value);
-        });
-      }
-    });
   }
   _clear() {
     this._parentElement.innerHTML = '';
@@ -2008,7 +1960,7 @@ class View {
   renderSpinner() {
     const spinner = `<div class="spinner">
         <svg>
-          <use href="${_urlImgIconsSvgDefault.default}#icon-loader"></use>
+          <use href="${_imgIconsSvgDefault.default}#icon-loader"></use>
         </svg>
         </div>`;
     this._clear();
@@ -2019,7 +1971,7 @@ class View {
         <div class="error">
             <div>
               <svg>
-                <use href="${_urlImgIconsSvgDefault.default}#icon-alert-triangle"></use>
+                <use href="${_imgIconsSvgDefault.default}#icon-alert-triangle"></use>
               </svg>
             </div>
             <p>${error}</p>
@@ -2033,7 +1985,7 @@ class View {
         <div class="error">
             <div>
               <svg>
-                <use href="${_urlImgIconsSvgDefault.default}#icon-smile"></use>
+                <use href="${_imgIconsSvgDefault.default}#icon-smile"></use>
               </svg>
             </div>
             <p>${message}</p>
@@ -2044,8 +1996,8 @@ class View {
   }
 }
 
-},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","url:../img/icons.svg":"3t5dV"}],"3t5dV":[function(require,module,exports) {
-module.exports = require('./bundle-url').getBundleURL() + "icons.d4a14980.svg"
+},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","../img/icons.svg":"28PSn"}],"28PSn":[function() {},{}],"3t5dV":[function(require,module,exports) {
+module.exports = require('./bundle-url').getBundleURL() + "icons.HASH_REF_f6727c52d326b6f99dffa0b9d4a14980.svg"
 },{"./bundle-url":"3seVR"}],"3seVR":[function(require,module,exports) {
 "use strict";
 
@@ -13832,10 +13784,9 @@ class ResultsView extends _View.View {
     return this._data.map(this._generateMarkupPreview).join('');
   }
   _generateMarkupPreview(result) {
-    const id = window.location.hash.slice(1);
     return `
         <li class="preview">
-        <a class="preview__link ${result.id === id ? 'preview__link--active' : ''}" href=#${result.id}>
+        <a class="preview__link preview__link--active" href=#${result.id}>
           <figure class="preview__fig">
             <img src=${result.image} alt=${result.title} />
           </figure>
@@ -13924,4 +13875,4 @@ exports.default = new PaginationView();
 
 },{"./View":"77sRH","url:../img/icons.svg":"3t5dV","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}]},["7BONy","3miIZ"], "3miIZ", "parcelRequirefade")
 
-//# sourceMappingURL=index.250b04c7.js.map
+//# sourceMappingURL=index.HASH_REF_6315ebf922a29661e8263da0250b04c7.js.map
