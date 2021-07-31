@@ -1,4 +1,3 @@
-import recipeView from '../views/recipeView.js';
 import { API_URL } from './config.js';
 import { getJSON } from './helpers.js';
 export { async } from 'regenerator-runtime';
@@ -74,12 +73,19 @@ export const updateServings = function (servings) {
   state.recipe.servings = servings;
 };
 
+export const storeBookmarks = function () {
+  localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
+};
+
 export const addBookmark = function (recipe) {
   // Add a new bookmark
   state.bookmarks.push(recipe);
 
   // Mark current recipe as bookmarked
   if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+
+  // Store bookmark
+  storeBookmarks();
 };
 
 export const deleteBookmark = function (id) {
@@ -89,4 +95,14 @@ export const deleteBookmark = function (id) {
 
   // Mark current recipe as not bookmarked
   if (id === state.recipe.id) state.recipe.bookmarked = false;
+
+  // Store bookmark
+  storeBookmarks();
 };
+
+const init = function () {
+  const data = JSON.parse(localStorage.getItem('bookmarks'));
+  if (data) state.bookmarks = data;
+};
+
+init();

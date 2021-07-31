@@ -1,0 +1,17 @@
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+var _View = require('./View');
+var _previewView = require('./previewView');
+var _previewViewDefault = _parcelHelpers.interopDefault(_previewView);
+class Bookmarks extends _View.View {
+  _parentElement = document.querySelector('.bookmarks__list');
+  _errorMessage = 'No bookmarks created yet.';
+  _message = '';
+  addHandlerRender(handler) {
+    window.addEventListener('load', handler);
+  }
+  _generateMarkup() {
+    return this._data.map(bookmark => _previewViewDefault.default.render(bookmark, false)).join('');
+  }
+}
+exports.default = new Bookmarks();
