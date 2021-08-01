@@ -6,7 +6,7 @@ class AddRecipeView extends View {
   _windowElement = document.querySelector('.add-recipe-window');
   _overlayElement = document.querySelector('.overlay');
   _btnOpen = document.querySelector('.nav__btn--add-recipe');
-  _btnClose = document.querySelector('.b tn--close-modal');
+  _btnClose = document.querySelector('.btn--close-modal');
 
   constructor() {
     super();
@@ -25,19 +25,21 @@ class AddRecipeView extends View {
 
   _addHandlerHideWindow() {
     this._btnClose.addEventListener('click', this.toggleWindow.bind(this));
+
     this._overlayElement.addEventListener(
       'click',
       this.toggleWindow.bind(this)
     );
   }
 
-  addHandlerUpload() {
+  addHandlerUpload(handler) {
     this._parentElement.addEventListener('submit', function (e) {
       e.preventDefault();
 
       const dataArr = [...new FormData(this)];
       const data = Object.fromEntries(dataArr);
-      console.log(data);
+
+      handler(data);
     });
   }
 

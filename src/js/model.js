@@ -1,7 +1,8 @@
-import { API_URL } from './config.js';
-import { getJSON } from './helpers.js';
+import { API_URL, KEY } from './config.js';
+import { getJSON, sendJSON } from './helpers.js';
 export { async } from 'regenerator-runtime';
 import { RES_PER_PAGE } from './config.js';
+import { async } from 'regenerator-runtime';
 
 export const state = {
   recipe: {},
@@ -106,3 +107,37 @@ const init = function () {
 };
 
 init();
+
+export const uploadNewRecipe = async function (newRecipe) {
+  try {
+    const ingredients = Object.entries(newRecipe)
+      .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
+      .map(ing => {
+        const ingArray = ing[1].replaceAll(' ', '').split(',');
+        if (ingArray.length !== 3)
+          throw new Error('Wrong format please try again');
+        const [quantity, unit, description] = ingArray;
+
+        return {
+          quantity: quantity ? +quantity : null,
+          unit: unit,
+          description: description,
+        };
+      });
+
+    const recipe = {
+      title: newRecipe.title,
+      source_url: newRecipe.sourceUrl,
+      image_url: newRecipe.image,
+      publisher: newRecipe.publisher,
+      cooking_time: +newRecipe.cookingTime,
+      servings: +newRecipe.servings,
+      ingredients,
+    };
+
+    const data = await sendJSON(`${API_URL}?key=${KEY}`, recipe);
+    console.log(data);
+  } catch (err) {
+    throw err;
+  }
+};
