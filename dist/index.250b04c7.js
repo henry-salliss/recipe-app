@@ -525,7 +525,11 @@ const bookmarkStorage = function () {
 };
 const controlAddRecipe = async function (newRecipe) {
   try {
+    // Add loading spinner
+    _viewsAddRecipeViewJsDefault.default.renderSpinner();
+    // Upload new data
     await _modelJs.uploadNewRecipe(newRecipe);
+    console.log(_modelJs.state.recipe);
     // Render new recipe
     _viewsRecipeViewJsDefault.default.render(_modelJs.state.recipe);
     // Success message
@@ -536,6 +540,7 @@ const controlAddRecipe = async function (newRecipe) {
     }, _configJs.CLOSE_MODAL_SEC * 1000);
   } catch (err) {
     _viewsAddRecipeViewJsDefault.default.renderError(err.message);
+    console.error(err);
   }
 };
 const init = function () {
@@ -612,6 +617,7 @@ const createRecipeObj = function (recipe) {
 };
 const loadRecipe = async function (id) {
   try {
+    console.log(id);
     const data = await _helpersJs.getJSON(`${_configJs.API_URL}/${id}`);
     state.recipe = createRecipeObj(data);
     if (state.bookmarks.some(bookmark => bookmark.id === id)) {
@@ -680,6 +686,7 @@ const init = function () {
 init();
 const uploadNewRecipe = async function (newRecipe) {
   try {
+    console.log(Object.entries(newRecipe));
     const ingredients = Object.entries(newRecipe).filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '').map(ing => {
       const ingArray = ing[1].replaceAll(' ', '').split(',');
       if (ingArray.length !== 3) throw new Error('Wrong format please try again');
@@ -699,11 +706,14 @@ const uploadNewRecipe = async function (newRecipe) {
       servings: +newRecipe.servings,
       ingredients
     };
+    // upload data
     const data = await _helpersJs.sendJSON(`${_configJs.API_URL}?key=${_configJs.KEY}`, recipe);
-    state.recipe = createRecipeObj(data);
+    // set as current recipe
+    state.recipe = createRecipeObj(data.data.recipe);
+    // Make bookmarked
     addBookmark(state.recipe);
   } catch (err) {
-    throw err;
+    console.log(err);
   }
 };
 
@@ -1771,7 +1781,7 @@ class View {
     this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', html);
   }
-  renderSuccessMessage(message = this._successMessage) {
+  renderSuccessMessage(message = this._message) {
     const html = `
         <div class="error">
             <div>
@@ -14068,7 +14078,7 @@ $({ target: 'URL', proto: true, enumerable: true }, {
 var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
 _parcelHelpers.defineInteropFlag(exports);
 var _View = require('./View');
-require('url:../img/icons.svg');
+require('../img/icons.svg');
 class AddRecipeView extends _View.View {
   _parentElement = document.querySelector('.upload');
   _message = 'Recipe was successfully uploaded';
@@ -14104,6 +14114,6 @@ class AddRecipeView extends _View.View {
 }
 exports.default = new AddRecipeView();
 
-},{"./View":"77sRH","url:../img/icons.svg":"3t5dV","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}]},["7BONy","3miIZ"], "3miIZ", "parcelRequirefade")
+},{"./View":"77sRH","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","../img/icons.svg":"28PSn"}],"28PSn":[function() {},{}]},["7BONy","3miIZ"], "3miIZ", "parcelRequirefade")
 
 //# sourceMappingURL=index.250b04c7.js.map

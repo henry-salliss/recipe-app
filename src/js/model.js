@@ -30,6 +30,7 @@ const createRecipeObj = function (recipe) {
 };
 export const loadRecipe = async function (id) {
   try {
+    console.log(id);
     const data = await getJSON(`${API_URL}/${id}`);
 
     state.recipe = createRecipeObj(data);
@@ -113,6 +114,7 @@ init();
 
 export const uploadNewRecipe = async function (newRecipe) {
   try {
+    console.log(Object.entries(newRecipe));
     const ingredients = Object.entries(newRecipe)
       .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
       .map(ing => {
@@ -137,12 +139,13 @@ export const uploadNewRecipe = async function (newRecipe) {
       servings: +newRecipe.servings,
       ingredients,
     };
-
+    // upload data
     const data = await sendJSON(`${API_URL}?key=${KEY}`, recipe);
-
-    state.recipe = createRecipeObj(data);
+    // set as current recipe
+    state.recipe = createRecipeObj(data.data.recipe);
+    // Make bookmarked
     addBookmark(state.recipe);
   } catch (err) {
-    throw err;
+    console.log(err);
   }
 };

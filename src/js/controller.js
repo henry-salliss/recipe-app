@@ -89,7 +89,12 @@ const bookmarkStorage = function () {
 
 const controlAddRecipe = async function (newRecipe) {
   try {
+    // Add loading spinner
+    addRecipeView.renderSpinner();
+
+    // Upload new data
     await model.uploadNewRecipe(newRecipe);
+    console.log(model.state.recipe);
 
     // Render new recipe
     recipeView.render(model.state.recipe);
@@ -103,6 +108,7 @@ const controlAddRecipe = async function (newRecipe) {
     }, CLOSE_MODAL_SEC * 1000);
   } catch (err) {
     addRecipeView.renderError(err.message);
+    console.error(err);
   }
 };
 
