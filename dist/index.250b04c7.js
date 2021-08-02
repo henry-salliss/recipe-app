@@ -456,6 +456,7 @@ var _viewsPaginationViewJs = require('../views/paginationView.js');
 var _viewsPaginationViewJsDefault = _parcelHelpers.interopDefault(_viewsPaginationViewJs);
 var _viewsAddRecipeViewJs = require('../views/addRecipeView.js');
 var _viewsAddRecipeViewJsDefault = _parcelHelpers.interopDefault(_viewsAddRecipeViewJs);
+var _configJs = require('./config.js');
 require('core-js/stable');
 require('regenerator-runtime/runtime');
 // if (module.hot) {
@@ -525,6 +526,14 @@ const bookmarkStorage = function () {
 const controlAddRecipe = async function (newRecipe) {
   try {
     await _modelJs.uploadNewRecipe(newRecipe);
+    // Render new recipe
+    _viewsRecipeViewJsDefault.default.render(_modelJs.state.recipe);
+    // Success message
+    _viewsAddRecipeViewJsDefault.default.renderSuccessMessage();
+    // Close form window
+    setTimeout(function () {
+      _viewsAddRecipeViewJsDefault.default.toggleWindow();
+    }, _configJs.CLOSE_MODAL_SEC * 1000);
   } catch (err) {
     _viewsAddRecipeViewJsDefault.default.renderError(err.message);
   }
@@ -540,7 +549,7 @@ const init = function () {
 };
 init();
 
-},{"./model.js":"1hp6y","../views/recipeView.js":"4znsI","../views/searchView":"YbZ6D","../views/resultsView.js":"2hr3d","../views/bookmarksView.js":"nvdlK","../views/paginationView.js":"4wt0Z","core-js/stable":"1PFvP","regenerator-runtime/runtime":"62Qib","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","../views/addRecipeView.js":"1fM8x"}],"1hp6y":[function(require,module,exports) {
+},{"./model.js":"1hp6y","../views/recipeView.js":"4znsI","../views/searchView":"YbZ6D","../views/resultsView.js":"2hr3d","../views/bookmarksView.js":"nvdlK","../views/paginationView.js":"4wt0Z","core-js/stable":"1PFvP","regenerator-runtime/runtime":"62Qib","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","../views/addRecipeView.js":"1fM8x","./config.js":"6pr2F"}],"1hp6y":[function(require,module,exports) {
 var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
 _parcelHelpers.defineInteropFlag(exports);
 _parcelHelpers.export(exports, "state", function () {
@@ -586,20 +595,25 @@ const state = {
   },
   bookmarks: []
 };
+const createRecipeObj = function (recipe) {
+  return {
+    id: recipe.id,
+    title: recipe.title,
+    publisher: recipe.publisher,
+    sourceUrl: recipe.source_url,
+    image: recipe.image_url,
+    ingredients: recipe.ingredients,
+    servings: recipe.servings,
+    cookingTime: recipe.cooking_time,
+    ...recipe.key && ({
+      key: recipe.key
+    })
+  };
+};
 const loadRecipe = async function (id) {
   try {
     const data = await _helpersJs.getJSON(`${_configJs.API_URL}/${id}`);
-    const {recipe} = data.data;
-    state.recipe = {
-      id: recipe.id,
-      title: recipe.title,
-      publisher: recipe.publisher,
-      sourceUrl: recipe.source_url,
-      image: recipe.image_url,
-      ingredients: recipe.ingredients,
-      servings: recipe.servings,
-      cookingTime: recipe.cooking_time
-    };
+    state.recipe = createRecipeObj(data);
     if (state.bookmarks.some(bookmark => bookmark.id === id)) {
       state.recipe.bookmarked = true;
     } else {
@@ -686,7 +700,8 @@ const uploadNewRecipe = async function (newRecipe) {
       ingredients
     };
     const data = await _helpersJs.sendJSON(`${_configJs.API_URL}?key=${_configJs.KEY}`, recipe);
-    console.log(data);
+    state.recipe = createRecipeObj(data);
+    addBookmark(state.recipe);
   } catch (err) {
     throw err;
   }
@@ -707,10 +722,14 @@ _parcelHelpers.export(exports, "RES_PER_PAGE", function () {
 _parcelHelpers.export(exports, "KEY", function () {
   return KEY;
 });
+_parcelHelpers.export(exports, "CLOSE_MODAL_SEC", function () {
+  return CLOSE_MODAL_SEC;
+});
 const API_URL = `https://forkify-api.herokuapp.com/api/v2/recipes`;
 const TIMEOUT_SECONDS = 10;
 const RES_PER_PAGE = 10;
 const KEY = 'e5f60ef1-cd91-4c33-98ee-81eabc83b00b';
+const CLOSE_MODAL_SEC = 2.5;
 
 },{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"5gA8y":[function(require,module,exports) {
 "use strict";
@@ -14052,6 +14071,7 @@ var _View = require('./View');
 require('url:../img/icons.svg');
 class AddRecipeView extends _View.View {
   _parentElement = document.querySelector('.upload');
+  _message = 'Recipe was successfully uploaded';
   _windowElement = document.querySelector('.add-recipe-window');
   _overlayElement = document.querySelector('.overlay');
   _btnOpen = document.querySelector('.nav__btn--add-recipe');
