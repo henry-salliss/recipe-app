@@ -76,7 +76,7 @@ class View {
     this._parentElement.insertAdjacentHTML('afterbegin', html);
   }
 
-  renderSuccessMessage(message = this._successMessage) {
+  renderSuccessMessage(message = this._message) {
     const html = `
         <div class="error">
             <div>
