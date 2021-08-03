@@ -14110,7 +14110,7 @@ $({ target: 'URL', proto: true, enumerable: true }, {
 var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
 _parcelHelpers.defineInteropFlag(exports);
 var _View = require('./View');
-require('url:../img/icons.svg');
+require('../img/icons.svg');
 class AddRecipeView extends _View.View {
   _parentElement = document.querySelector('.upload');
   _message = 'Recipe was successfully uploaded';
@@ -14146,6 +14146,6 @@ class AddRecipeView extends _View.View {
 }
 exports.default = new AddRecipeView();
 
-},{"./View":"77sRH","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","url:../img/icons.svg":"3t5dV"}]},["7BONy","3miIZ"], "3miIZ", "parcelRequirefade")
+},{"./View":"77sRH","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","../img/icons.svg":"28PSn"}],"28PSn":[function() {},{}]},["7BONy","3miIZ"], "3miIZ", "parcelRequirefade")
 
 //# sourceMappingURL=index.250b04c7.js.map
