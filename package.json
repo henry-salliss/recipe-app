@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "recipe app",
   "main": "index.html",
+  "default": "index.html",
   "dependencies": {
     "core-js": "^3.15.2",
     "fractional": "^1.0.0",
@@ -14,7 +15,7 @@
   },
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html --dist-dir ./dist"
   },
   "repository": {
     "type": "git",

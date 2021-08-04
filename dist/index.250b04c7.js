@@ -558,7 +558,7 @@ const init = function () {
 };
 init();
 
-},{"./model.js":"1hp6y","../views/recipeView.js":"4znsI","../views/searchView":"YbZ6D","../views/resultsView.js":"2hr3d","../views/bookmarksView.js":"nvdlK","../views/paginationView.js":"4wt0Z","core-js/stable":"1PFvP","regenerator-runtime/runtime":"62Qib","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","../views/addRecipeView.js":"1fM8x","./config.js":"6pr2F"}],"1hp6y":[function(require,module,exports) {
+},{"./model.js":"1hp6y","../views/recipeView.js":"4znsI","../views/searchView":"YbZ6D","../views/resultsView.js":"2hr3d","../views/bookmarksView.js":"nvdlK","../views/paginationView.js":"4wt0Z","../views/addRecipeView.js":"1fM8x","./config.js":"6pr2F","core-js/stable":"1PFvP","regenerator-runtime/runtime":"62Qib","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"1hp6y":[function(require,module,exports) {
 var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
 _parcelHelpers.defineInteropFlag(exports);
 _parcelHelpers.export(exports, "state", function () {
@@ -1707,7 +1707,7 @@ class RecipeView extends _View.View {
 }
 exports.default = new RecipeView();
 
-},{"./View":"77sRH","fractional":"5jzJt","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","url:../img/icons.svg":"3t5dV"}],"77sRH":[function(require,module,exports) {
+},{"./View":"77sRH","url:../img/icons.svg":"3t5dV","fractional":"5jzJt","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"77sRH":[function(require,module,exports) {
 var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
 _parcelHelpers.defineInteropFlag(exports);
 _parcelHelpers.export(exports, "View", function () {
@@ -1796,7 +1796,55 @@ class View {
   }
 }
 
-},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","../img/icons.svg":"28PSn"}],"28PSn":[function() {},{}],"5jzJt":[function(require,module,exports) {
+},{"../img/icons.svg":"28PSn","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"28PSn":[function() {},{}],"3t5dV":[function(require,module,exports) {
+module.exports = require('./bundle-url').getBundleURL() + "icons.d4a14980.svg"
+},{"./bundle-url":"3seVR"}],"3seVR":[function(require,module,exports) {
+"use strict";
+
+/* globals document:readonly */
+var bundleURL = null;
+
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
+} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
+
+
+function getOrigin(url) {
+  let matches = ('' + url).match(/(https?|file|ftp):\/\/[^/]+/);
+
+  if (!matches) {
+    throw new Error('Origin not found');
+  }
+
+  return matches[0];
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+exports.getOrigin = getOrigin;
+},{}],"5jzJt":[function(require,module,exports) {
 /*
 fraction.js
 A Javascript fraction library.
@@ -2165,54 +2213,6 @@ Fraction.primeFactors = function(n)
 
 module.exports.Fraction = Fraction
 
-},{}],"3t5dV":[function(require,module,exports) {
-module.exports = require('./bundle-url').getBundleURL() + "icons.d4a14980.svg"
-},{"./bundle-url":"3seVR"}],"3seVR":[function(require,module,exports) {
-"use strict";
-
-/* globals document:readonly */
-var bundleURL = null;
-
-function getBundleURLCached() {
-  if (!bundleURL) {
-    bundleURL = getBundleURL();
-  }
-
-  return bundleURL;
-}
-
-function getBundleURL() {
-  try {
-    throw new Error();
-  } catch (err) {
-    var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
-
-    if (matches) {
-      return getBaseURL(matches[0]);
-    }
-  }
-
-  return '/';
-}
-
-function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
-} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
-
-
-function getOrigin(url) {
-  let matches = ('' + url).match(/(https?|file|ftp):\/\/[^/]+/);
-
-  if (!matches) {
-    throw new Error('Origin not found');
-  }
-
-  return matches[0];
-}
-
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-exports.getOrigin = getOrigin;
 },{}],"YbZ6D":[function(require,module,exports) {
 var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
 _parcelHelpers.defineInteropFlag(exports);
@@ -2250,7 +2250,7 @@ class ResultsView extends _View.View {
 }
 exports.default = new ResultsView();
 
-},{"./View":"77sRH","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","./previewView":"7ASJV"}],"7ASJV":[function(require,module,exports) {
+},{"./View":"77sRH","./previewView":"7ASJV","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"7ASJV":[function(require,module,exports) {
 var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
 _parcelHelpers.defineInteropFlag(exports);
 var _urlImgIconsSvg = require('url:../img/icons.svg');
@@ -2282,7 +2282,7 @@ class PreviewView extends _View.View {
 }
 exports.default = new PreviewView();
 
-},{"./View":"77sRH","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","url:../img/icons.svg":"3t5dV"}],"nvdlK":[function(require,module,exports) {
+},{"url:../img/icons.svg":"3t5dV","./View":"77sRH","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"nvdlK":[function(require,module,exports) {
 var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
 _parcelHelpers.defineInteropFlag(exports);
 var _View = require('./View');
@@ -2301,7 +2301,7 @@ class Bookmarks extends _View.View {
 }
 exports.default = new Bookmarks();
 
-},{"./View":"77sRH","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","../views/previewView":"7ASJV"}],"4wt0Z":[function(require,module,exports) {
+},{"./View":"77sRH","../views/previewView":"7ASJV","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"4wt0Z":[function(require,module,exports) {
 var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
 _parcelHelpers.defineInteropFlag(exports);
 var _View = require('./View');
@@ -2368,7 +2368,47 @@ class PaginationView extends _View.View {
 }
 exports.default = new PaginationView();
 
-},{"./View":"77sRH","url:../img/icons.svg":"3t5dV","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"1PFvP":[function(require,module,exports) {
+},{"./View":"77sRH","url:../img/icons.svg":"3t5dV","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"1fM8x":[function(require,module,exports) {
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+var _View = require('./View');
+require('../img/icons.svg');
+class AddRecipeView extends _View.View {
+  _parentElement = document.querySelector('.upload');
+  _message = 'Recipe was successfully uploaded';
+  _windowElement = document.querySelector('.add-recipe-window');
+  _overlayElement = document.querySelector('.overlay');
+  _btnOpen = document.querySelector('.nav__btn--add-recipe');
+  _btnClose = document.querySelector('.btn--close-modal');
+  constructor() {
+    super();
+    this.addHandlerShowWindow();
+    this._addHandlerHideWindow();
+  }
+  toggleWindow() {
+    this._overlayElement.classList.toggle('hidden');
+    this._windowElement.classList.toggle('hidden');
+  }
+  addHandlerShowWindow() {
+    this._btnOpen.addEventListener('click', this.toggleWindow.bind(this));
+  }
+  _addHandlerHideWindow() {
+    this._btnClose.addEventListener('click', this.toggleWindow.bind(this));
+    this._overlayElement.addEventListener('click', this.toggleWindow.bind(this));
+  }
+  addHandlerUpload(handler) {
+    this._parentElement.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const dataArr = [...new FormData(this)];
+      const data = Object.fromEntries(dataArr);
+      handler(data);
+    });
+  }
+  _generateMarkup() {}
+}
+exports.default = new AddRecipeView();
+
+},{"./View":"77sRH","../img/icons.svg":"28PSn","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"28PSn":[function() {},{}],"1PFvP":[function(require,module,exports) {
 require('../modules/es.symbol');
 require('../modules/es.symbol.description');
 require('../modules/es.symbol.async-iterator');
@@ -14073,46 +14113,6 @@ $({ target: 'URL', proto: true, enumerable: true }, {
   }
 });
 
-},{"../internals/export":"7f5VM"}],"1fM8x":[function(require,module,exports) {
-var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
-_parcelHelpers.defineInteropFlag(exports);
-var _View = require('./View');
-require('../img/icons.svg');
-class AddRecipeView extends _View.View {
-  _parentElement = document.querySelector('.upload');
-  _message = 'Recipe was successfully uploaded';
-  _windowElement = document.querySelector('.add-recipe-window');
-  _overlayElement = document.querySelector('.overlay');
-  _btnOpen = document.querySelector('.nav__btn--add-recipe');
-  _btnClose = document.querySelector('.btn--close-modal');
-  constructor() {
-    super();
-    this.addHandlerShowWindow();
-    this._addHandlerHideWindow();
-  }
-  toggleWindow() {
-    this._overlayElement.classList.toggle('hidden');
-    this._windowElement.classList.toggle('hidden');
-  }
-  addHandlerShowWindow() {
-    this._btnOpen.addEventListener('click', this.toggleWindow.bind(this));
-  }
-  _addHandlerHideWindow() {
-    this._btnClose.addEventListener('click', this.toggleWindow.bind(this));
-    this._overlayElement.addEventListener('click', this.toggleWindow.bind(this));
-  }
-  addHandlerUpload(handler) {
-    this._parentElement.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const dataArr = [...new FormData(this)];
-      const data = Object.fromEntries(dataArr);
-      handler(data);
-    });
-  }
-  _generateMarkup() {}
-}
-exports.default = new AddRecipeView();
-
-},{"./View":"77sRH","@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","../img/icons.svg":"28PSn"}],"28PSn":[function() {},{}]},["7BONy","3miIZ"], "3miIZ", "parcelRequirefade")
+},{"../internals/export":"7f5VM"}]},["7BONy","3miIZ"], "3miIZ", "parcelRequirefade")
 
 //# sourceMappingURL=index.250b04c7.js.map
