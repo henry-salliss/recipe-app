@@ -536,8 +536,8 @@ const controlAddRecipe = async function (newRecipe) {
     _viewsAddRecipeViewJsDefault.default.renderSuccessMessage();
     // Rerender bookmark view
     _viewsBookmarksViewJsDefault.default.render(_modelJs.state.bookmarks);
-    // Chnage id in browser
-    window.history.pushState(null, `#${_modelJs.state.recipe.id}`);
+    // Change id in browser
+    window.history.pushState(null, '', `#${_modelJs.state.recipe.id}`);
     // Close form window
     setTimeout(function () {
       _viewsAddRecipeViewJsDefault.default.toggleWindow();
@@ -604,36 +604,8 @@ const state = {
   },
   bookmarks: []
 };
-// const createRecipeObj = function (recipe) {
-// return {
-// id: recipe.id,
-// title: recipe.title,
-// publisher: recipe.publisher,
-// sourceUrl: recipe.source_url,
-// image: recipe.image_url,
-// ingredients: recipe.ingredients,
-// servings: recipe.servings,
-// cookingTime: recipe.cooking_time,
-// ...(recipe.key && { key: recipe.key }),
-// };
-// };
-// export const loadRecipe = async function (id) {
-// try {
-// console.log(id);
-// const data = await getJSON(`${API_URL}/${id}`);
-// state.recipe = createRecipeObj(data);
-// if (state.bookmarks.some(bookmark => bookmark.id === id)) {
-// state.recipe.bookmarked = true;
-// } else {
-// state.recipe.bookmarked = false;
-// }
-// } catch (err) {
-// throw err;
-// }
-// };
 const createRecipeObj = function (data) {
   const {recipe} = data.data;
-  console.log(recipe);
   return {
     id: recipe.id,
     title: recipe.title,
@@ -650,8 +622,7 @@ const createRecipeObj = function (data) {
 };
 const loadRecipe = async function (id) {
   try {
-    console.log(id);
-    const data = await _helpersJs.getJSON(`${_configJs.API_URL}/${id}`);
+    const data = await _helpersJs.AJAX(`${_configJs.API_URL}/${id}?key=${_configJs.KEY}`);
     state.recipe = createRecipeObj(data);
     if (state.bookmarks.some(bookmark => bookmark.id === id)) {
       state.recipe.bookmarked = true;
@@ -665,7 +636,7 @@ const loadRecipe = async function (id) {
 const loadSearchResults = async function (query) {
   try {
     state.search.query = query;
-    const data = await _helpersJs.getJSON(`${_configJs.API_URL}?search=${query}`);
+    const data = await _helpersJs.AJAX(`${_configJs.API_URL}?search=${query}?key=${_configJs.KEY}`);
     console.log(data);
     state.search.results = data.data.recipes.map(rec => {
       return {
@@ -721,7 +692,7 @@ const uploadNewRecipe = async function (newRecipe) {
   try {
     console.log(Object.entries(newRecipe));
     const ingredients = Object.entries(newRecipe).filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '').map(ing => {
-      const ingArray = ing[1].replaceAll(' ', '').split(',');
+      const ingArray = ing[1].split(',').map(ing => ing.trim());
       if (ingArray.length !== 3) throw new Error('Wrong format please try again');
       const [quantity, unit, description] = ingArray;
       return {
@@ -740,7 +711,7 @@ const uploadNewRecipe = async function (newRecipe) {
       ingredients
     };
     // upload data
-    const data = await _helpersJs.sendJSON(`${_configJs.API_URL}?key=${_configJs.KEY}`, recipe);
+    const data = await _helpersJs.AJAX(`${_configJs.API_URL}?key=${_configJs.KEY}`, recipe);
     // set as current recipe
     state.recipe = createRecipeObj(data);
     // Make bookmarked
@@ -819,11 +790,8 @@ exports.export = function (dest, destName, get) {
 },{}],"581KF":[function(require,module,exports) {
 var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
 _parcelHelpers.defineInteropFlag(exports);
-_parcelHelpers.export(exports, "getJSON", function () {
-  return getJSON;
-});
-_parcelHelpers.export(exports, "sendJSON", function () {
-  return sendJSON;
+_parcelHelpers.export(exports, "AJAX", function () {
+  return AJAX;
 });
 _parcelHelpers.export(exports, "async", function () {
   return _regeneratorRuntime.async;
@@ -837,26 +805,15 @@ const timeout = function (s) {
     }, s * 1000);
   });
 };
-const getJSON = async function (url) {
+const AJAX = async function (url, uploadData = undefined) {
   try {
-    const fetchPromise = fetch(url);
-    const response = await Promise.race([fetchPromise, timeout(_config.TIMEOUT_SECONDS)]);
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.message);
-    return data;
-  } catch (err) {
-    throw err;
-  }
-};
-const sendJSON = async function (url, uploadData) {
-  try {
-    const fetchPromise = fetch(url, {
+    const fetchPromise = uploadData ? fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(uploadData)
-    });
+    }) : fetch(url);
     const response = await Promise.race([fetchPromise, timeout(_config.TIMEOUT_SECONDS)]);
     const data = await response.json();
     if (!response.ok) throw new Error(data.message);
@@ -1664,7 +1621,7 @@ class RecipeView extends _View.View {
             </div>
             </div>
 
-            <div class="recipe__user-generated">
+            <div class="recipe__user-generated ${this._data.key ? '' : 'hidden'}">
             <svg>
                 <use href="${_urlImgIconsSvgDefault.default}#icon-user"></use>
             </svg>
@@ -1756,10 +1713,19 @@ _parcelHelpers.defineInteropFlag(exports);
 _parcelHelpers.export(exports, "View", function () {
   return View;
 });
-var _urlImgIconsSvg = require('url:../img/icons.svg');
-var _urlImgIconsSvgDefault = _parcelHelpers.interopDefault(_urlImgIconsSvg);
+var _imgIconsSvg = require('../img/icons.svg');
+var _imgIconsSvgDefault = _parcelHelpers.interopDefault(_imgIconsSvg);
 class View {
   _data;
+  /**
+  * Render the object taken to the DOM
+  * @param {Object || Object[]} data The data that gets rendered e.g: recipe
+  * @param {boolean [render=true]} render If false a string is created, if true recipe is rendered
+  * @returns {undefined} if render is false string is returned
+  * @this {Object} is an instance of View
+  * @author Henry Salliss
+  * @todo Finish function
+  */
   render(data, render = true) {
     if (!data || Array.isArray(data) && data.length === 0) return this.renderError();
     this._data = data;
@@ -1794,7 +1760,7 @@ class View {
   renderSpinner() {
     const spinner = `<div class="spinner">
         <svg>
-          <use href="${_urlImgIconsSvgDefault.default}#icon-loader"></use>
+          <use href="${_imgIconsSvgDefault.default}#icon-loader"></use>
         </svg>
         </div>`;
     this._clear();
@@ -1805,7 +1771,7 @@ class View {
         <div class="error">
             <div>
               <svg>
-                <use href="${_urlImgIconsSvgDefault.default}#icon-alert-triangle"></use>
+                <use href="${_imgIconsSvgDefault.default}#icon-alert-triangle"></use>
               </svg>
             </div>
             <p>${error}</p>
@@ -1819,7 +1785,7 @@ class View {
         <div class="error">
             <div>
               <svg>
-                <use href="${_urlImgIconsSvgDefault.default}#icon-smile"></use>
+                <use href="${_imgIconsSvgDefault.default}#icon-smile"></use>
               </svg>
             </div>
             <p>${message}</p>
@@ -1830,55 +1796,7 @@ class View {
   }
 }
 
-},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","url:../img/icons.svg":"3t5dV"}],"3t5dV":[function(require,module,exports) {
-module.exports = require('./bundle-url').getBundleURL() + "icons.d4a14980.svg"
-},{"./bundle-url":"3seVR"}],"3seVR":[function(require,module,exports) {
-"use strict";
-
-/* globals document:readonly */
-var bundleURL = null;
-
-function getBundleURLCached() {
-  if (!bundleURL) {
-    bundleURL = getBundleURL();
-  }
-
-  return bundleURL;
-}
-
-function getBundleURL() {
-  try {
-    throw new Error();
-  } catch (err) {
-    var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
-
-    if (matches) {
-      return getBaseURL(matches[0]);
-    }
-  }
-
-  return '/';
-}
-
-function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
-} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
-
-
-function getOrigin(url) {
-  let matches = ('' + url).match(/(https?|file|ftp):\/\/[^/]+/);
-
-  if (!matches) {
-    throw new Error('Origin not found');
-  }
-
-  return matches[0];
-}
-
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-exports.getOrigin = getOrigin;
-},{}],"5jzJt":[function(require,module,exports) {
+},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y","../img/icons.svg":"28PSn"}],"28PSn":[function() {},{}],"5jzJt":[function(require,module,exports) {
 /*
 fraction.js
 A Javascript fraction library.
@@ -2247,6 +2165,54 @@ Fraction.primeFactors = function(n)
 
 module.exports.Fraction = Fraction
 
+},{}],"3t5dV":[function(require,module,exports) {
+module.exports = require('./bundle-url').getBundleURL() + "icons.d4a14980.svg"
+},{"./bundle-url":"3seVR"}],"3seVR":[function(require,module,exports) {
+"use strict";
+
+/* globals document:readonly */
+var bundleURL = null;
+
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
+} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
+
+
+function getOrigin(url) {
+  let matches = ('' + url).match(/(https?|file|ftp):\/\/[^/]+/);
+
+  if (!matches) {
+    throw new Error('Origin not found');
+  }
+
+  return matches[0];
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+exports.getOrigin = getOrigin;
 },{}],"YbZ6D":[function(require,module,exports) {
 var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
 _parcelHelpers.defineInteropFlag(exports);
@@ -2303,7 +2269,7 @@ class PreviewView extends _View.View {
               <div class="preview__data">
                 <h4 class="preview__title">${this._data.title}.</h4>
                 <p class="preview__publisher">${this._data.publisher}</p>
-                <div class="preview__user-generated">
+                <div class="preview__user-generated ${this._data.key ? '' : 'hidden'}">
                   <svg>
                     <use href="${_urlImgIconsSvgDefault.default}#icon-user"></use>
                   </svg>

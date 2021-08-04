@@ -1,7 +1,17 @@
-import icons from 'url:../img/icons.svg';
+import icons from '../img/icons.svg';
 
 class View {
   _data;
+
+  /**
+   * Render the object taken to the DOM
+   * @param {Object || Object[]} data The data that gets rendered e.g: recipe
+   * @param {boolean [render=true]} render If false a string is created, if true recipe is rendered
+   * @returns {undefined} if render is false string is returned
+   * @this {Object} is an instance of View
+   * @author Henry Salliss
+   * @todo Finish function
+   */
 
   render(data, render = true) {
     if (!data || (Array.isArray(data) && data.length === 0))
